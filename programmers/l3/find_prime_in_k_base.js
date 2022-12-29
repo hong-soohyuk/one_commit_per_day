@@ -1,3 +1,4 @@
+//tips const numArr = n.toString(k).split(/0+/);
 const isPrime = (n) => {
     if (isNaN(n)) return false;
     if (n === 1 || n === 0 || n < 0) return false;
