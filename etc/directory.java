@@ -63,7 +63,7 @@ class UserSolution {
 		int	value = 0;;
 		for (int i = 0; i < len; i++)
 		{
-			value = value | dir_name.charAt(i);
+			value += (dir_name.charAt(i) - 'a' + 1);
 			value = value << 5;
 		}
 		return (value);
