@@ -1,51 +1,78 @@
 import java.util.*;
 
 class UserSolution {
+	Map<Integer, Set<Integer>>	map;
+	char[]			original;
 
-	int[]	string_hash;
-	char[]	original;
-
-	private	int	str2hash(char str[], int length)
+	private	int	str2hash(char[] str, int start)
 	{
 		int	hash = 0;
-		for (int i = 0; i < length; i++)
+		for (int i = 0; i < 3 && start + i < str.length; i++)
 		{
 			hash <<= 5;
-			hash += (str[i] - 'a' + 1);
+			hash += (str[start + i] - 'a' + 1);
 		}
 		return (hash);
 	}
 	public void init(int N, char[] string)
 	{
-		string_hash = new int[N];
+		map = new HashMap<>();
 		original = new char[N];
 		for (int i = 0; i < N; i++)
-		{
-			string_hash[i] = 0;
 			original[i] = string[i];
+		for (int i = 0; i < N - 2; i++)
+		{
+			int hash = str2hash(original, i);
+			if (!map.containsKey(hash))
+				map.put(hash, new TreeSet<>());
+			map.get(hash).add(i);
 		}
 	}
 	public int change(char[] target, char[] replace)
 	{
-		int length = target.length;
-		int	target_hash = str2hash(target, length);
-		int	original_hash = str2hash(original, length);
-		int	i = 0;
-		int	count = 0;
-		while (i + length < original.length)
+		int	target_hash = str2hash(target, 0);
+		int	replace_hash = str2hash(replace, 0);
+		if (!map.containsKey(target_hash))
+			return (0);
+		if (!map.containsKey(replace_hash))
+			map.put(replace_hash, new TreeSet<>());
+		int		count = 0;
+		int		j;
+		int		prev = -1;
+		boolean	string_check;
+		List<Integer>	array = new LinkedList<>();
+		for (int i : map.get(target_hash))
+			array.add(i);
+		for (int i : array)
 		{
-			if (original_hash == target_hash)
+			if (prev == -1 || prev + 2 < i)
 			{
-				for (int j = 0; j < length; j++)
+			string_check = true;
+			for (j = 0; j < 3; j++)
+				if (original[i + j] != target[j])
+					string_check = false;
+			if (string_check)
+			{
+				for (j = 0; j < 3; j++)
 					original[i + j] = replace[j];
-				++count;
-				i += length;
+				count++;
+				map.get(target_hash).remove(i);
+				prev = i;
 			}
-			else
+			}
+		}
+		array.removeAll(map.get(target_hash));
+        map.get(target_hash).clear();
+		for (int i : array)
+		{
+			for (j = -2; j < 3; j++)
 			{
-				original_hash <<= 5;
-				original_hash += (original[i] - 'a' + 1);
-				++i;
+				if (i + j < 0 || i + j > original.length - 2)
+					continue;
+				int hash = str2hash(original, i + j);
+				if (!map.containsKey(hash))
+					map.put(hash, new TreeSet<>());
+				map.get(hash).add(i+j);
 			}
 		}
 		return (count);
@@ -57,4 +84,3 @@ class UserSolution {
 			ret[i] = original[i];
 	}
 }
-
