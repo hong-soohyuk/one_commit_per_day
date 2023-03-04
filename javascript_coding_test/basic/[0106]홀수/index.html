@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>출력결과</title>
+    </head>
+    <body>
+        <script>
+            function solution(arr){
+							let answer=[];
+							let total = 0, min = Number.MAX_SAFE_INTEGER;
+
+							for(const value of arr){
+								if(value % 2 === 1){
+									total += value;
+									if(value < min) 
+										min = value;
+								}
+							}
+
+							answer.push(total);
+							answer.push(min);
+
+							return answer;
+            }
+            
+            arr=[12, 77, 38, 41, 53, 92, 85];
+            console.log(solution(arr));
+        </script>
+    </body>
+</html>

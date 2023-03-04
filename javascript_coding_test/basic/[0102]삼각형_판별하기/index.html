@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>출력결과</title>
+    </head>
+    <body>
+        <script>
+            function solution(a, b, c){
+                let answer="YES", max, total;
+								total = a + b + c;
+
+								if(a > b) max = a;
+								else max = b;
+								
+								if(c > max) max = c;
+								
+								total -= max;
+
+                return max < total ? "YES" : "NO";
+            }
+
+            console.log(solution(13, 33, 17));
+        </script>
+    </body>
+</html>
