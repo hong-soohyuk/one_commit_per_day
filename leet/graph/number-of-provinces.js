@@ -4,10 +4,29 @@
  */
 
 /*
-1 0 0 1
-0 1 1 0
-0 1 1 1
-1 0 1 1
+var findCircleNum = function (isConnected) {
+    const cityNum = isConnected.length;
+    const visited = Array.from({ length: cityNum }, () => false);
+    let province = 0;
+    for (let i = 0; i < cityNum; i++) {
+        if (visited[i]) continue;
+
+        province++;
+        const queue = [i];
+        visited[i] = true;
+        while (queue.length > 0) {
+            const current = queue.shift();
+            for (let j = 0; j < cityNum; j++) {
+                if (isConnected[current][j] && !visited[j]) {
+                    queue.push(j);
+                    visited[j] = true;
+                }
+            }
+        }
+
+    }
+    return province;
+};
  */
 var findCircleNum = function (isConnected) {
     const cityNum = isConnected.length;
@@ -31,4 +50,5 @@ var findCircleNum = function (isConnected) {
 };
 /*
 https://leetcode.com/problems/number-of-provinces/?envType=study-plan-v2&envId=leetcode-75
+bfs queue로 푸는 법
 */
